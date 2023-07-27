@@ -121,5 +121,3 @@ createServer( ) 에 파라미터로 입력되는 function(request,response){ } �
 | 503 | Service Unavailable |
 | 504 | Gateway Timeout |
 | 505 | HTTP Version Not Supported |
-
-test1
