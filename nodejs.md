@@ -2,19 +2,21 @@
 1. 서버구축을 위해 바탕화면에 프로젝트 폴더 하나 생성 <br>
 2. 폴더안에 server.js 파일을 생성하고 아래 내용을 입력
 
->var http = require('http'); <br>
->var server = http.createServer(function(request,response){ 
->
->   response.writeHead(200,{'Content-Type':'text/html'}); <br>
->   response.end('Hello node.js!!');
->
->});
->
->server.listen(8080, function(){ <br> 
->
->   console.log('Server is running...'); <br>
-> 
->});
+```node.js
+var http = require('http'); <br>
+var server = http.createServer(function(request,response){ 
+
+   response.writeHead(200,{'Content-Type':'text/html'}); <br>
+   response.end('Hello node.js!!');
+
+});
+
+server.listen(8080, function(){ <br> 
+
+   console.log('Server is running...'); <br>
+ 
+});
+```
 
 vscode 로 만든 폴더를 연후 node server를 입력하고 <br> 웹페이지에서 http://localhost:8080 입력하면
 **Hello node.js** 가 출력됨.
