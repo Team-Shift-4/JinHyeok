@@ -129,3 +129,100 @@ createServer( ) 에 파라미터로 입력되는 function(request,response){ } �
 | 505 | HTTP Version Not Supported |
 
 # 클라이언트 요청(GET) 처리
+
+  **주소값을 이용해 요청하는 방식**
+> http://naver.com/Post.nhn?postId=3572432&cafeId=158763
+
+- 위와 같이 브라우저를 통해 naver.com/Post.nhn 주소로 요청을 하게 되는데 서버측에서는 ?(물음표) 다음의 값들을 변수와 값의 형태로 받아서 사용하게 되는데, 이렇게 실제 주소값 뒤에 붙어가는 값을 Query String 이라고 함
+- Query String 은 주소형태로 요청할 수도 있고, HTML에 있는 form 태그를 사용해서 요청할수도 있음
+
+**아래 방법을 참고하여 실습 해보기**
+- server_request_get.js 파일 만들기
+- 아래 코드 입력하기
+>var http = require('http');
+>
+>// 1. 요청한 url을 객체로 만들기 위해 url 모듈사용<br>
+>var url = require('url');<br>
+>// 2. 요청한 url 중에 Query String 을 객체로 만들기 위해 querystring 모듈 사용<br>
+>var querystring = require('querystring'); 
+>
+>var server = http.createServer(function(request,response){<br>
+>   // 3. 콘솔화면에 로그 시작 부분을 출력<br>
+>   console.log('--- log start ---');<br>
+>   // 4. 브라우저에서 요청한 주소를 parsing 하여 객체화 후 출력<br>
+>   var parsedUrl = url.parse(request.url);<br>
+>   console.log(parsedUrl);<br>
+>   // 5. 객체화된 url 중에 Query String 부분만 따로 객체화 후 출력<br>
+>   var parsedQuery = querystring.parse(parsedUrl.query,'&','=');<br>
+>   console.log(parsedQuery);<br>
+>   // 6. 콘솔화면에 로그 종료 부분을 출력<br>
+>   console.log('--- log end ---');<br>
+>
+>   response.writeHead(200, {'Content-Type':'text/html'});<br>
+>   response.end('Hello node.js!!');<br>
+>});
+>
+>server.listen(8080, function(){<br>
+>   console.log('Server is running...');<br>
+>});
+
+- 입력 후 터미널에서 node server_request_get 을 입력하면 실행됨
+- 브라우저에서 http://localhost:8080/?var1=newData&var2=153&var3=testdata2017  주소를 입력하면 hello node.js!!라는 메세지가 출력됨
+  
+# cmd 창에 뜨는 로그분석
+ (정확하진 않습니다..수정해서 다시 올릴게요)
+>--- log start ---<br>
+>// 1. 이부분이 var parsedUrl = url.parse(주소) 함수로 주소값을 객체화 한 부분입니다.<br>
+>//객체화 되기 때문에 parsedUrl.search 형태로 객체 내부의 변수값을 사용할 수 있습니다.<br>
+>//아래에서는 객체 내부의 query 라는 변수값을 가져와서 다시 객체화 합니다.<br>
+>Url {<br>
+> protocol: null,<br>
+> slashes: null,<br>
+> auth: null,<br>
+> host: null,<br>
+> port: null,<br>
+> hostname: null,<br>
+> hash: null,<br>
+> search: '?var1=newData&var2=153&var3=testdata2017',<br>
+> query: 'var1=newData&var2=153&var3=testdata2017',<br>
+> pathname: '/',<br>
+> path: '/?var1=newData&var2=153&var3=testdata2017',<br>
+> href: '/?var1=newData&var2=153&var3=testdata2017' }<br>
+>
+>// 2. 이 부분이 var parsedQuery = querystring.parse(parsedUrl.query,'&','=')<br>
+>//parsedUrl 객체에서 query 라는 변수값을 다시 querystring 으로 parsing 하여 객체화하였습니다.<br>
+>//해당 객체는 parsedQuery.var1 형태로 객체내부의 값을 사용할 수 있게 됨. <br>
+>{ var1: 'newData', var2: '153', var3: 'testdata2017' }<br>
+>--- log end ---
+
+- url과 querystring 모듈에 있는 parse( ) 함수로 클라이언트가 요청한 주소값을 javascript 객체로 만들어서 사용할 수 있음
+
+# 소스코드 분석
+
+>var url = require('url');
+- node.js 에는 console 과 같은 내장객체와 더불어 미리 정의되어 있는 내장 module 이 있음
+- 그중 url 은 클라이언트가 요청한 주소값을 javascript 객체로 변환해서 사용할 수 있게 하는 모듈
+
+>var querystring = require('querystring');
+- querystring은 주소로 전달된 Query String 을 변환해서 javascript 객체로 사용할 수 있게 해주는 모듈
+
+>console.log('--- log start ---');
+>
+>...
+>
+>console.log('--- log end ---');
+- 이 코드에서는 서버에서 처리되는 내용을 콘솔화면에 출력하는데 로그의 시작과 끝을 알기 위해서 아래와 같이 로그의 시작과 끝을 출력
+
+>var parsedUrl = url.parse(request.url);<br>
+>console.log(parsedUrl);
+- url 모듈의 parse( ) 함수를 사용해서 request 객체에 있는 url 값을 parsedUrl 변수에 담은후에 로그로 출력
+- request 객체 내부에 url 이라는 변수가 존재하고 이 url 변수는 주소를 문자열 값으로 가지고 있음
+- parsedUrl 객체에 담겨 있는 내용이 출력
+
+>var parsedQuery = querystring.parse(parsedUrl.query,'&','=');<br>
+>console.log(parsedQuery);
+- parsedUrl 에는 객체화된 url 값이 들어가 있음
+- 이중에 Query String 이 담겨있는 query 변수를 가져온 후 querystring 모듈의 parse( ) 함수를 이용해서 객체화함
+- 역시 log( ) 함수를 이용해서 객체를 출력하면 Query String 으로 전달된 변수와 값이 로그분석 의 내용과 같이 출력
+
+# 클라이언트 요청(POST) 처리
