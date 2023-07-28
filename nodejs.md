@@ -3,17 +3,17 @@
 2. 폴더안에 server.js 파일을 생성하고 아래 내용을 입력
 
 ```node.js
-var http = require('http'); <br>
+var http = require('http'); 
 var server = http.createServer(function(request,response){ 
 
-   response.writeHead(200,{'Content-Type':'text/html'}); <br>
+   response.writeHead(200,{'Content-Type':'text/html'}); 
    response.end('Hello node.js!!');
 
 });
 
-server.listen(8080, function(){ <br> 
+server.listen(8080, function(){ <
 
-   console.log('Server is running...'); <br>
+   console.log('Server is running...'); 
  
 });
 ```
