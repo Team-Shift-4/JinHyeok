@@ -11,14 +11,14 @@ var server = http.createServer(function(request,response){
 
 });
 
-server.listen(8080, function(){ 
+server.listen(본인이 원하는 포트번호 입력), function(){ 
 
    console.log('Server is running...'); 
  
 });
 ```
 
-vscode 로 만든 폴더를 연후 node server를 입력하고 <br> 웹페이지에서 http://localhost:8080 입력하면
+vscode 로 만든 폴더를 연후 node server를 입력하고 <br> 웹페이지에서 **http://localhost:(본인이 지정한 포트번호)** 입력하면
 **Hello node.js** 가 출력됨.
 
 # 소스코드 분석
@@ -175,13 +175,13 @@ var server = http.createServer(function(request,response){
    response.end('Hello node.js!!');
 });
 
-server.listen(8080, function(){
+server.listen(본인이 원하는 포트번호, function(){
    console.log('Server is running...');
 });
 ```
 
 - 입력 후 터미널에서 node server_request_get 을 입력하면 실행됨
-- 브라우저에서 http://localhost:8080/?var1=newData&var2=153&var3=testdata2017  주소를 입력하면 hello node.js!!라는 메세지가 출력됨
+- 브라우저에서 **http://localhost:(본인이 지정한 포트번호)/?var1=newData&var2=153&var3=testdata2017**  주소를 입력하면 hello node.js!!라는 메세지가 출력됨
   
 # cmd 창에 뜨는 로그분석
  (정확하진 않습니다..수정해서 다시 올릴게요)
