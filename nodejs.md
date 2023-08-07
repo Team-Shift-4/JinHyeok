@@ -296,3 +296,5 @@ console.log(parsedQuery);
 - 역시 log( ) 함수를 이용해서 객체를 출력하면 Query String 으로 전달된 변수와 값이 로그분석 의 내용과 같이 출력
 
 # 클라이언트 요청(POST) 처리
+- POST는 주소만 요청하고 변수와 값을 주소가 아닌 요청 BODY에 담아서 서버측에 요청
+- 
